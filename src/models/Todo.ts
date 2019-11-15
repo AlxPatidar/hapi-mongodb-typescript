@@ -28,6 +28,7 @@ export const todoSchema = new Mongoose.Schema(
   {
     // Automatically include createdAt and updatedAt field
     timestamps: true,
+    // Remove default key _v
     versionKey: false
   }
 );

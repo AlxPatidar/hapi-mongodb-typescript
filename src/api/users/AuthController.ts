@@ -1,15 +1,14 @@
 import * as Hapi from "hapi";
 import * as Boom from "boom";
 import _ from "lodash";
-import * as Bcrypt from "bcryptjs"
+import * as Bcrypt from "bcryptjs";
 
-import { ITodo, Todo } from "../../models/Todo";
-import { IUser, User } from "../../models/User"
+import { IUser, User } from "../../models/User";
 import { IRequest } from "../../config/request";
-import * as Helper from "../../utils/helper"
+import * as Helper from "../../utils/helper";
 
 export default class AuthController {
-
+    // Login with email and password -> return token
     public async login(request: IRequest, reply: Hapi.ResponseToolkit) {
         try {
             const payload = request.payload
@@ -49,9 +48,14 @@ export default class AuthController {
                 }).code(200)
             }
         } catch (error) {
-            return Boom.badImplementation(error);
+            return reply.response({
+                status: false,
+                message: error.message,
+                data: {}
+            }).code(401);
         }
     }
+    // Authenticate user and get deatils from token
     public async authenticate(request: IRequest, reply: Hapi.ResponseToolkit) {
         const userId = request.auth.credentials.id;
         const user = await User.findOne(
@@ -74,6 +78,7 @@ export default class AuthController {
             }).code(200)
         }
     }
+    // Registration user based on email and basic details
     public async registration(request: IRequest, reply: Hapi.ResponseToolkit) {
         try {
             const payload: IUser = <IUser>request.payload;
@@ -107,5 +112,5 @@ export default class AuthController {
             })
         }
     }
-    
+
 }

@@ -1,5 +1,6 @@
 import * as Joi from "joi";
 
+// Validate login for email and passowrd
 export const loginValidation = Joi.object({
     email: Joi.string()
         .required()

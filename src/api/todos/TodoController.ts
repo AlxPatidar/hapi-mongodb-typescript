@@ -1,12 +1,11 @@
 import * as Hapi from "hapi";
-import * as Boom from "boom";
 import * as mongoose from "mongoose";
 import * as _ from "lodash";
 import { ITodo, Todo } from "../../models/Todo";
 import { IRequest } from "../../config/request";
 
-export default class TaskController {
-
+export default class TodoController {
+  // Create todo item
   public async createTodo(request: IRequest, reply: Hapi.ResponseToolkit) {
     try {
       const payload: ITodo = <ITodo>request.payload
@@ -24,7 +23,7 @@ export default class TaskController {
       }).code(200)
     }
   }
-
+  // Update todo item
   public async updateTodo(request: IRequest, reply: Hapi.ResponseToolkit) {
     const todoId = request.params["todoId"];
     const payload = request.payload
@@ -47,7 +46,7 @@ export default class TaskController {
       }).code(200)
     }
   }
-
+  // Delete todo item
   public async deleteTodo(request: IRequest, reply: Hapi.ResponseToolkit) {
     const todoId = request.params["todoId"];
     const deletedTodo = await Todo.findOneAndDelete({
@@ -60,7 +59,6 @@ export default class TaskController {
         data: deletedTodo
       }).code(200);
     } else {
-      console.log({ error: Boom.notFound() })
       return reply.response({
         status: false,
         message: "Invalid Request.",
@@ -68,7 +66,7 @@ export default class TaskController {
       }).code(200);
     }
   }
-
+  // Get todo detail by todo Id
   public async getTodoById(request: IRequest, reply: Hapi.ResponseToolkit) {
     try {
       const todoId = request.params["todoId"];
@@ -106,7 +104,6 @@ export default class TaskController {
         data: _.get(todo, "[0]", [])
       };
     } catch (error) {
-      console.log({ error: Boom.notFound() })
       return {
         status: true,
         message: error,
@@ -114,7 +111,7 @@ export default class TaskController {
       };
     }
   }
-
+  // Get todo list or fetch all todo list
   public async getTodoList(request: IRequest, reply: Hapi.ResponseToolkit) {
     try {
       const tasks = await Todo.aggregate([
@@ -155,7 +152,7 @@ export default class TaskController {
       };
     }
   }
-  
+  // Filter todo for pagination
   public async filterTodoList(request: IRequest, reply: Hapi.ResponseToolkit) {
     let userId = request.auth.credentials.id;
     let top = request.query["top"];

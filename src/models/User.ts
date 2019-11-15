@@ -47,7 +47,10 @@ export const UserSchema = new Mongoose.Schema(
     emailVerified: { type: Boolean, default: true },
   },
   {
-    timestamps: true
+    // Automatically include createdAt and updatedAt field
+    timestamps: true,
+    // Remove default key _v
+    versionKey: false
   }
 );
 

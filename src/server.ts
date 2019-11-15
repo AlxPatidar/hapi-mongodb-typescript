@@ -1,5 +1,4 @@
 import * as Hapi from "hapi";
-
 import { IPlugin } from "./utils/plugins/interfaces";
 import { IServerConfigurations } from "./settings";
 import * as Logs from "./utils/plugins/logging";
@@ -12,6 +11,7 @@ export async function init(
 ): Promise<Hapi.Server> {
   try {
     const port = process.env.PORT || configs.port;
+    // Create hapi server instance
     const server = new Hapi.Server({
       debug: { request: ['error'] },
       port: port,
@@ -21,13 +21,15 @@ export async function init(
         }
       }
     });
-    console.log(`server is running on http://localhost:${port}`)
 
+    console.log("Register Routes");
+    await Api.RegisterRoutes(server);
+    console.log("Routes registered successfully.");
+    console.log(`server is running on http://localhost:${port}`)
 
     if (configs.routePrefix) {
       server.realm.modifiers.route.prefix = configs.routePrefix;
     }
-
     //  Setup Hapi Plugins
     const plugins: Array<string> = configs.plugins;
     const pluginOptions = {
@@ -36,7 +38,7 @@ export async function init(
     };
 
     let pluginPromises: Promise<any>[] = [];
-
+    // List of all plugins
     plugins.forEach((pluginName: string) => {
       var plugin: IPlugin = require("./utils/plugins/" + pluginName).default();
       console.log(
@@ -44,15 +46,9 @@ export async function init(
       );
       pluginPromises.push(plugin.register(server, pluginOptions));
     });
-
     await Promise.all(pluginPromises);
-
     console.log("All plugins registered successfully.");
-
-    console.log("Register Routes");
     Logs.init(server, configs, database);
-    Api.RegisterRoutes(server);
-    console.log("Routes registered successfully.");
 
     return server;
   } catch (err) {

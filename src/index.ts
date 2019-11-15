@@ -19,6 +19,7 @@ process.on("unhandledRejection", (reason: any) => {
 const start = async ({ config, db }) => {
   try {
     const server = await Server.init(config, db);
+    // Start server with call hapi server method
     await server.start();
     console.log("Server running at:", server.info.uri);
   } catch (err) {

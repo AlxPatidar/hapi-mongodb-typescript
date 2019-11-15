@@ -1,4 +1,3 @@
-import hapi from 'hapi';
 import * as joi from 'joi';
 import * as ServerRoutes from '../index';
 import AuthController from "./AuthController"
@@ -6,6 +5,7 @@ import * as Validation from "./AuthValidation"
 
 const authController: AuthController = new AuthController();
 
+// Merge all Usre and autentication based routes
 export function userRoutes(): Array<ServerRoutes.Route> {
   let routes: Array<ServerRoutes.Route> = [
     {
@@ -26,7 +26,11 @@ export function userRoutes(): Array<ServerRoutes.Route> {
       method: 'GET',
       path: '/me',
       handler: authController.authenticate,
-      config: { auth: "jwt" }
+      config: {
+        tags: ["api", "auth"],
+        description: "Decode token.",
+        notes: [],
+      }
     },
     {
       method: 'POST',

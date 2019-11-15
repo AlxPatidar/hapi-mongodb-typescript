@@ -1,4 +1,4 @@
-import { IPlugin, IPluginInfo } from "../interfaces";
+import { IPlugin } from "../interfaces";
 import * as Hapi from "hapi";
 
 const register = async (server: Hapi.Server): Promise<void> => {

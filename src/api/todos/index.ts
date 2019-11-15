@@ -1,10 +1,10 @@
-import hapi from 'hapi';
-import * as joi from 'joi';
 import * as ServerRoutes from '../index';
 import TodoController from './TodoController';
 import * as Validation from "./TodoValidation";
+
 const todoController: TodoController = new TodoController();
 
+// Merge all todo based routes
 export function todoRoutes(): Array<ServerRoutes.Route> {
   let routes: Array<ServerRoutes.Route> = [
     {

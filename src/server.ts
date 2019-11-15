@@ -3,12 +3,15 @@ import { IPlugin } from "./utils/plugins/interfaces";
 import { IServerConfigurations } from "./settings";
 import * as Logs from "./utils/plugins/logging";
 import { IDatabase } from "./config/database";
+import { ICronJob } from "./config/cron";
 import * as Api from "./api";
 
 export async function init(
   configs: IServerConfigurations,
-  database: IDatabase
+  database: IDatabase,
+  cronJobs: ICronJob
 ): Promise<Hapi.Server> {
+  
   try {
     const port = process.env.PORT || configs.port;
     // Create hapi server instance
@@ -34,13 +37,14 @@ export async function init(
     const plugins: Array<string> = configs.plugins;
     const pluginOptions = {
       database: database,
-      serverConfigs: configs
+      serverConfigs: configs,
+      cronJobs: cronJobs
     };
 
     let pluginPromises: Promise<any>[] = [];
     // List of all plugins
     plugins.forEach((pluginName: string) => {
-      var plugin: IPlugin = require("./utils/plugins/" + pluginName).default();
+      const plugin: IPlugin = require("./utils/plugins/" + pluginName).default();
       console.log(
         `Register Plugin ${plugin.info().name} v${plugin.info().version}`
       );

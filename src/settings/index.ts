@@ -42,3 +42,4 @@ export function getServerConfigs(): IServerConfigurations {
     "plugins": config.app.plugins
   };
 }
+

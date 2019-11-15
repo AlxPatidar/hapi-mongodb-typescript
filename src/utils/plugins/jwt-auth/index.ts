@@ -1,6 +1,5 @@
 import { IPlugin, IPluginOptions } from "../interfaces";
 import * as Hapi from "hapi";
-import { IUser, User } from "../../../models/User";
 import { IRequest } from "../../../config/request";
 
 const register = async (

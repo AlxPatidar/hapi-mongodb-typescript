@@ -115,7 +115,7 @@ export default class TodoController {
   public async getTodoList(request: IRequest, reply: Hapi.ResponseToolkit) {
     try {
       const tasks = await Todo.aggregate([
-        { $match: { isDelete: false } },
+        { $match: { isDeleted: false } },
         {
           $lookup: {
             from: "users",

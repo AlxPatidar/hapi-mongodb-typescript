@@ -3,6 +3,8 @@ dot.config();
 import * as Server from "./server";
 import * as Database from "./config/database";
 import * as Configs from "./settings";
+import { cronOptions } from "./config/cron";
+
 console.log(`Running environment ${process.env.NODE_ENV || "development"}`);
 
 // Catch unhandling unexpected exceptions
@@ -16,9 +18,9 @@ process.on("unhandledRejection", (reason: any) => {
 });
 
 // Define async start function
-const start = async ({ config, db }) => {
+const start = async ({ config, db, cronOptions }) => {
   try {
-    const server = await Server.init(config, db);
+    const server = await Server.init(config, db, cronOptions);
     // Start server with call hapi server method
     await server.start();
     console.log("Server running at:", server.info.uri);
@@ -36,4 +38,8 @@ const database = Database.init(dbConfigs);
 const serverConfigs = Configs.getServerConfigs();
 
 // Start the server
-start({ config: serverConfigs, db: database });
+start({
+  config: serverConfigs,
+  db: database,
+  cronOptions
+});

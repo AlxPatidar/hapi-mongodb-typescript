@@ -31,6 +31,7 @@
   "dependencies": {
     "bcryptjs": "2.4.3",
     "boom": "7.2.0",
+    "cron": "1.7.2",
     "dotenv": "^8.1.0",
     "good": "8.1.0",
     "good-console": "7.1.0",
@@ -57,4 +58,3 @@
     "node": "10"
   }
 }
-

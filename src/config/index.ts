@@ -8,7 +8,7 @@ const dev = {
     port: parseInt(process.env.PORT) || 5002,
     jwtSecret: "random-secret-password",
     routePrefix: "/api/v1",
-    plugins: ["logger", "jwt-auth", "swagger", "cron"]
+    plugins: ["logger", "jwt-auth", "swagger", "cron", "graphql"]
   },
   db: {
     host: process.env.DB_HOST || 'localhost',

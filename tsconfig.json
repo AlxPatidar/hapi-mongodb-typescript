@@ -5,7 +5,11 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "lib": [
+      "es6",
+      "esnext.asynciterable"
+    ]
   },
   "include": [
     "src/**/**.ts",

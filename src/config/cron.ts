@@ -1,16 +1,18 @@
 export const cronOptions = {
-  jobs: [{
-    name: 'Workout Every minute',
-    time: '*/60 * * * * *',
-    timezone: 'America/Los_Angeles',
-    request: {
-      method: 'GET',
-      url: '/todos'
-    },
-    onComplete: (res) => {
-      console.log({ res }); // 'hello world'
-    }
-  }]
+  jobs: [
+  //   {
+  //   name: 'Workout Every minute',
+  //   time: '*/60 * * * * *',
+  //   timezone: 'America/Los_Angeles',
+  //   request: {
+  //     method: 'GET',
+  //     url: '/todos'
+  //   },
+  //   onComplete: (res) => {
+  //     console.log({ res }); // 'hello world'
+  //   }
+  // }
+  ]
 };
 
 export interface Job {
